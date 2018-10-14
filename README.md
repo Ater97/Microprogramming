@@ -12,3 +12,4 @@ Lab5 -> lab5  -> decimal number to octal
         loopx -> print x until user press enter
         
         fact  -> get factors of two figits number
+Lab6 ->
