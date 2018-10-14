@@ -7,6 +7,8 @@ lab2 -> arithmetic operations
 
 lab3 -> mult with adds & div with subs
 
-Lab5 -> lab5  ->
-        loopx ->
-        fact  ->
+Lab5 -> lab5  -> decimal number to octal 
+
+        loopx -> print x until user press enter
+        
+        fact  -> get factors of two figits number
