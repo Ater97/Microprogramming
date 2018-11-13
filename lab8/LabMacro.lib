@@ -1,0 +1,30 @@
+Suma MACRO a,b,c,total ;a+b+c = 6
+    XOR AX,AX
+    MOV Al,a
+    ADD Al,b
+    ADD Al,c
+    MOV total,Al
+ENDM
+
+OPERACION2 MACRO a,b,c,total;	2 * b + 3 * (a-c) = 45
+    XOR AX,AX
+    MOV Al, b
+    MOV Bl, 2
+    MUL Bl      ;2*b
+    mov temp, al
+    mov Al, a
+    sub Al,c     ;a-c
+    MOV Bl, 3
+    mul Bl     ;3 * (a-c)
+    add Al, temp 
+    mov total, Al
+ENDM
+
+OPERACION3 MACRO a,b,c,total ;3.	a * b /c 
+    mov al,a
+    mov bl,b 
+    mul bl 
+    mov bl, c
+    div bl
+    mov total, al
+ENDM

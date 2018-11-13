@@ -1,0 +1,105 @@
+;*********************************************************************
+;Macro: GotoXY
+;Descripci?n: Coloca el cursor una posici?n especifica de la pantalla
+;Par?metros: Posici?n en X y posici?n en Y
+;*********************************************************************
+	GotoXY Macro  X,Y
+		Mov Dl,X
+		Mov Dh,y
+		Xor Bh,Bh	;limpiar el registro BH
+		Mov Ah,02h	;Se mueve el c?digo de funci?n de la interrupci?n 10h
+		Int 10h		;Se llama a la interrupci?n 10H
+	ENDM GotoXY
+;***********************************************************************
+;Macro: ImprimeCadena
+;Descripci?n: Imprime una cadena de caracteres en la posici?n del cursor
+;Par?metros: La cadena a imprimir
+;***********************************************************************
+	ImprimeCadena Macro  Cadena
+		Lea DX,Cadena
+		Mov Ah,09h	;Se muevel el c?digo para la impresi?n de una cadena terminada por $
+		Int 21h		;Se invoca a la rutina 21h
+	ENDM ImprimeCadena
+
+;***********************************************************************
+;Macro: CapturaCadena
+;Descripci?n: Captura una cadena desde teclado
+;Par?metros: La cadena a capturar
+;***********************************************************************
+
+	
+	CapturaCadena Macro Cadena
+		Lea DI,Cadena
+		Mov AH,01
+		Leer:
+			int 21h
+			cmp AL, 0Dh
+			je SalirCaptura
+			Mov [DI],AL
+			Inc DI
+			Inc Longitud
+			jmp Leer
+		SalirCaptura:
+			Inc DI			
+	Endm
+	
+	
+;***********************************************************************
+;Macro: CapturaPosMatriz
+;Descripci?n: Captura un numero desde teclado
+;Par?metros: Variable para almacenar el n?mero y posici?n en donde se almacenar?
+;***********************************************************************
+
+	
+	CapturaNumero Macro Variable
+		Mov AH,01
+		int 21h
+		SUB AL,30H
+		Mov Variable,AL
+	Endm
+
+	
+	PrintNumero Macro Numero
+		Mov DL, Numero
+		ADD DL,30h			
+		MOV AH,02H
+		INT 21H		
+	endm
+
+	PrintNumeroTwoDigits Macro Numero
+		XOR DX,DX;clean
+		XOR AX,AX
+		MOV Al, Numero
+		MOV BL, 10 
+		DIV BL  
+		
+		MOV Numero,AL
+		MOV Numero2,AH
+		XOR DX,DX;clean
+		XOR AX,AX
+		;print result
+		Mov DL, Numero
+		ADD DL,30h			
+		MOV AH,02H
+		INT 21H	
+		
+		XOR DX,DX ;clean
+		XOR AX,AX
+		Mov DL, Numero2
+		ADD DL,30h			
+		MOV AH,02H
+		INT 21H	
+		endm
+	
+	Mapeo Macro I,J,Filas,Columna,Tamano
+		Mov AL,I
+		Mov Bl,Filas
+		Mul Bl
+		Mov BL,Tamano
+		Mul BL
+		Mov CL,AL
+		Mov AL,J
+		Mov BL,Tamano
+		Mul BL
+		Add AL,CL
+	endm
